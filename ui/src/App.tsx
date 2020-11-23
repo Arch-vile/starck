@@ -1,23 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import StartScreen from "./views/startScreen/StartScreen";
+import {State, View} from "./model";
+import GameScreen from "./views/GameScreen";
+
+const initialState: State = {
+  currentView: View.START
+};
 
 function App() {
+
+  const [state, setState] = useState(initialState);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          hello there
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        { state.currentView === View.START  && <StartScreen state={state} setState={setState}/> }
+        { state.currentView === View.GAME  && <GameScreen state={state} setState={setState}/> }
       </header>
     </div>
   );
