@@ -1,22 +1,27 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import StartScreen from "./views/startScreen/StartScreen";
-import {State, View} from "./model";
-import GameScreen from "./views/GameScreen";
+import {reducer, State, View} from "./model";
+import GameScreen from "./views/gameScreen/GameScreen";
 
 const initialState: State = {
-  currentView: View.START
+  uiStore: {
+    currentView: View.START
+  },
+  dataStore: {
+    games: []
+  }
 };
 
 function App() {
 
-  const [state, setState] = useState(initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <div className="App">
       <header className="App-header">
-        { state.currentView === View.START  && <StartScreen state={state} setState={setState}/> }
-        { state.currentView === View.GAME  && <GameScreen state={state} setState={setState}/> }
+        { state.uiStore.currentView === View.START  && <StartScreen state={state} dispatch={dispatch}/> }
+        { state.uiStore.currentView === View.GAME  && <GameScreen state={state} dispatch={dispatch}/> }
       </header>
     </div>
   );

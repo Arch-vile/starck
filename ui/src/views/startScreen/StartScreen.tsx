@@ -1,18 +1,19 @@
 import React, {useState} from 'react';
-import {State, View, createActions} from "../../model";
+import {State, View, createActions, Action} from "../../model";
 
 interface Props {
   state: State,
-  setState: any
+  dispatch: (action:Action) => any
 }
 
 function StartScreen(props: Props) {
 
-  const actions = createActions(props.setState);
+  // const actions = createActions(props.state, props.setState);
 
   return (
     <div >This is the start screen
-  <button onClick={() => actions.setView(View.GAME)}>fooo</button>
+      <br/>
+  <button onClick={() => props.dispatch({type: 'GameView'})}>New Game</button>
     </div>
   );
 }
