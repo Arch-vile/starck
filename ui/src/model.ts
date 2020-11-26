@@ -1,3 +1,5 @@
+import produce from 'immer'
+
 export enum View {
   START,
   GAME
@@ -36,12 +38,11 @@ export interface Action {
 
 export function reducer(state: State, action: Action) {
   switch (action.type) {
-    case 'GameView':
+    case 'NewGame':
       {
-        console.log("reducer")
-        const foo = Object.assign({}, state)
-        foo.uiStore.currentView = View.GAME
-        return foo
+        return produce(state, (draft: State) => {
+          draft.uiStore.currentView = View.GAME
+        });
       }
     default:
       throw new Error();
