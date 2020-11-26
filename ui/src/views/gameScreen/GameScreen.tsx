@@ -15,7 +15,7 @@ function GameScreen(props: Props) {
       <div>
         <div>
           Team 1
-          {/*<button>Players: {props.state.dataStore.games[0].homeTeam.length}</button>*/}
+          <button>Players: {props.state.dataStore.games[0].homeTeam.length}</button>
           <button>Goals: 5</button>
         </div>
         <div>

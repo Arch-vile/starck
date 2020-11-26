@@ -41,6 +41,7 @@ export function reducer(state: State, action: Action) {
     case 'NewGame':
       {
         return produce(state, (draft: State) => {
+          draft.dataStore.games.push({ homeTeam: [{name: 'mikko'}], points: []})
           draft.uiStore.currentView = View.GAME
         });
       }
@@ -57,9 +58,6 @@ export const createActions = (state: State, setState: any) => {
 
   function newGame() {
     console.log('new game')
-    const games = state.dataStore.games
-    games.push({ homeTeam: [{name: 'mikko'}], points: []})
-    setState({ dataStore: { games: games }})
   }
 
   return {
