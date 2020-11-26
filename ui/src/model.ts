@@ -50,21 +50,3 @@ export function reducer(state: State, action: Action) {
   }
 }
 
-export const createActions = (state: State, setState: any) => {
-
-  function setView(view: View) {
-    setState({uiStore: {currentView: view}});
-  }
-
-  function newGame() {
-    console.log('new game')
-  }
-
-  return {
-    newGame: () => {
-      newGame()
-      // setView(View.GAME)
-    },
-    setView: setView
-  };
-}

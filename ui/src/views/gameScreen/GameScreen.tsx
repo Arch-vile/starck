@@ -1,30 +1,30 @@
 import React from 'react';
-import {State, View, createActions, Action} from "../../model";
+import {Action, State} from "../../model";
 
 interface Props {
   state: State,
-  dispatch: (action:Action) => any
+  dispatch: (action: Action) => any
 }
 
 function GameScreen(props: Props) {
 
- console.log(JSON.stringify(props))
+  console.log(JSON.stringify(props))
 
   return (
-    <div >This is the game screen
-      <div>
+      <div>This is the game screen
         <div>
-          Team 1
-          <button>Players: {props.state.dataStore.games[0].homeTeam.length}</button>
-          <button>Goals: 5</button>
-        </div>
-        <div>
-          Team 2
-          <button>Players: 4</button>
-          <button>Goals: 5</button>
+          <div>
+            Team 1
+            <button>Players: {props.state.dataStore.games[0].homeTeam.length}</button>
+            <button>Goals: 5</button>
+          </div>
+          <div>
+            Team 2
+            <button>Players: 4</button>
+            <button>Goals: 5</button>
+          </div>
         </div>
       </div>
-    </div>
   );
 }
 
