@@ -1,5 +1,5 @@
 import React from 'react';
-import {Action, State} from "../../model";
+import {Action, createActions, State} from "../../model";
 
 interface Props {
   state: State,
@@ -8,14 +8,15 @@ interface Props {
 
 function GameScreen(props: Props) {
 
-  console.log(JSON.stringify(props))
+  const actions = createActions(props.dispatch)
 
   return (
       <div>This is the game screen
         <div>
           <div>
             Team 1
-            <button >Players: {props.state.dataStore.games[0].homeTeam.length}</button>
+            <button onClick={actions.managePlayers}>
+              Players: {props.state.dataStore.games[0].homeTeam.players.length}</button>
             <button>Goals: 5</button>
           </div>
           <div>

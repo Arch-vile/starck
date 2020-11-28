@@ -3,7 +3,7 @@ import produce from 'immer'
 export enum View {
   START,
   GAME,
-  HOME_TEAM_PLAYERS
+  MANAGE_PLAYERS
 }
 
 interface UIStore {
@@ -20,8 +20,13 @@ interface Point {
 }
 
 interface Game {
-  homeTeam: Player[]
+  homeTeam: Team
+  awayTeam: Team
   points: Point[]
+}
+
+export interface Team {
+  players: Player[]
 }
 
 interface DataStore {
@@ -35,31 +40,42 @@ export interface State {
 
 export enum ActionTypes {
   NEW_GAME = "newGame",
-  VIEW_HOMETEAM_PLAYERS = "viewHomeTeamPlayers"
+  MANAGE_PLAYERS = "managePlayers",
+  TOGGLE_PLAYER_TEAM = "togglePlayerTeam"
 }
 
 export interface Action {
   type: ActionTypes
 }
 
-// export function createActions(dispatch: any) {
-//   return {
-//     newGame: () => dispatch({type: ActionTypes.NEW_GAME})
-//   }
-// }
+export function createActions(dispatch: any) {
+  return {
+    newGame: () => dispatch({type: ActionTypes.NEW_GAME}),
+    managePlayers: () =>  dispatch({type: ActionTypes.MANAGE_PLAYERS}),
+    togglePlayerTeam: (player: Player) => () =>
+        dispatch({type: ActionTypes.TOGGLE_PLAYER_TEAM, player: player})
+  }
+}
 
 export function reducer(state: State, action: Action) {
   switch (action.type) {
     case ActionTypes.NEW_GAME: {
       return produce(state, (draft: State) => {
-        draft.dataStore.games.push({homeTeam: [{name: 'mikko'}], points: []})
+        draft.dataStore.games.push(
+            {
+              homeTeam: {players: []},
+              awayTeam: {players: []},
+              points: []
+            })
         draft.uiStore.currentView = View.GAME
       });
     }
-    case ActionTypes.VIEW_HOMETEAM_PLAYERS:
+    case ActionTypes.MANAGE_PLAYERS:
       return produce(state, (draft: State) => {
-        draft.uiStore.currentView = View.HOME_TEAM_PLAYERS
+        draft.uiStore.currentView = View.MANAGE_PLAYERS
       })
+    case ActionTypes.TOGGLE_PLAYER_TEAM:
+      return produce(state, (draft: State) => draft);
     default:
       // eslint-disable-next-line
       const _exhaustCheck: never = action.type
