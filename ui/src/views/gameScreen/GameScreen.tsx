@@ -18,12 +18,12 @@ function GameScreen(props: Props) {
             Team 1
             <button onClick={actions.managePlayers}>
               Players: 4</button>
-            <button>Goals: 5</button>
+            <button disabled={true}>Goals: 5</button>
           </div>
           <div>
             Team 2
-            <button>Players: 4</button>
-            <button>Goals: 5</button>
+            <button disabled={true}>Players: 4</button>
+            <button disabled={true}>Goals: 5</button>
           </div>
         </div>
       </div>

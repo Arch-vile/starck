@@ -22,6 +22,8 @@ function App() {
           />}
 
            {/*Just for debugging*/}
+           <br/>
+          <span>Just for debugging</span><br/>
           {state.dataStore.gameActions.map(action =>
             <div style={{ fontSize: 'small'}} key={action.timestamp}>{JSON.stringify(action)}</div>
           )}

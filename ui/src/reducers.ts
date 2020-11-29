@@ -17,13 +17,11 @@ export function reducer(state: State, action: Action) {
     })
   }
 
-  console.log(action.constructor);
   if (TogglePlayerTeamAction.is(action)) {
-    console.log('the what now ', JSON.stringify(action))
     return produce(state, (draft: State) => {
       draft.dataStore.gameActions.push(new TogglePlayerTeamGameAction(action.player))
     })
   }
 
-  throw Error("unknown action")
+  throw Error(`unknown action ${JSON.stringify(action)}`)
 }
