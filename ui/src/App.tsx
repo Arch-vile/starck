@@ -1,16 +1,15 @@
 import React, {useReducer} from 'react';
 import './App.css';
-import StartScreen from "./views/startScreen/StartScreen";
 import {reducer, State, View} from "./model";
 import GameScreen from "./views/gameScreen/GameScreen";
 import PlayerListing from "./views/playerListing/PlayerListing";
 
 const initialState: State = {
   uiStore: {
-    currentView: View.START
+    currentView: View.GAME
   },
   dataStore: {
-    games: []
+    gameActions: []
   }
 };
 
@@ -21,9 +20,6 @@ function App() {
   return (
       <div className="App">
         <header className="App-header">
-          {state.uiStore.currentView === View.START &&
-          <StartScreen state={state} dispatch={dispatch}/>}
-
           {state.uiStore.currentView === View.GAME &&
           <GameScreen state={state} dispatch={dispatch}/>}
 
@@ -31,6 +27,9 @@ function App() {
           <PlayerListing
               dispatch={dispatch}
           />}
+          {state.dataStore.gameActions.map(action =>
+            <div key={action.timestamp}>{JSON.stringify(action)}</div>
+          )}
         </header>
       </div>
   );

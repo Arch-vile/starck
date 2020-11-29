@@ -13,24 +13,35 @@ interface UIStore {
 interface Player {
   name: string
 }
+export const PLAYERS: Player[] = [
+  {name: 'mikko'}, {name: 'ida'}, {name: 'roope'}
+]
 
-interface Point {
-  serve: Player,
-  goal: Player
+enum GameActionTypes {
+  TOGGLE_PLAYER_TEAM = 'togglePlayerTeam'
 }
 
-interface Game {
-  homeTeam: Team
-  awayTeam: Team
-  points: Point[]
+// Epoch millis
+type timeStamp = number
+
+interface GameAction {
+  timestamp: timeStamp
+  type: GameActionTypes
 }
 
-export interface Team {
-  players: Player[]
+class TogglePlayerTeamGameAction implements GameAction {
+  timestamp = new Date().getTime()
+  type = GameActionTypes.TOGGLE_PLAYER_TEAM
+  player: Player
+
+ constructor(player: Player) {
+    this.player = player
+ }
 }
+
 
 interface DataStore {
-  games: Game[]
+  gameActions: GameAction[]
 }
 
 export interface State {
@@ -38,49 +49,75 @@ export interface State {
   dataStore: DataStore
 }
 
-export enum ActionTypes {
-  NEW_GAME = "newGame",
-  MANAGE_PLAYERS = "managePlayers",
-  TOGGLE_PLAYER_TEAM = "togglePlayerTeam"
+// export enum ActionTypes {
+//   NEW_GAME = "newGame",
+//   MANAGE_PLAYERS = "managePlayers",
+//   TOGGLE_PLAYER_TEAM = "togglePlayerTeam"
+// }
+
+export interface Action { }
+
+class SetViewAction implements Action {
+  view: View
+  constructor(view: View) {
+    this.view = view
+  }
+
+  static is(action: Action): action is SetViewAction {
+    return (action as SetViewAction).view !== undefined
+  }
 }
 
-export interface Action {
-  type: ActionTypes
+class TogglePlayerTeamAction implements Action {
+  player: Player
+
+  constructor(player: Player){
+    this.player = player
+  }
+
+  static is(action: Action): action is TogglePlayerTeamAction {
+    return (action as TogglePlayerTeamAction).player !== undefined
+  }
 }
 
 export function createActions(dispatch: any) {
   return {
-    newGame: () => dispatch({type: ActionTypes.NEW_GAME}),
-    managePlayers: () =>  dispatch({type: ActionTypes.MANAGE_PLAYERS}),
-    togglePlayerTeam: (player: Player) => () =>
-        dispatch({type: ActionTypes.TOGGLE_PLAYER_TEAM, player: player})
+    // newGame: () => dispatch({type: ActionTypes.NEW_GAME}),
+    managePlayers: () =>  dispatch(new SetViewAction(View.MANAGE_PLAYERS)),
+     togglePlayerTeam: (player: Player) => () =>
+         dispatch(new TogglePlayerTeamGameAction(player))
   }
 }
 
-export function reducer(state: State, action: Action) {
-  switch (action.type) {
-    case ActionTypes.NEW_GAME: {
-      return produce(state, (draft: State) => {
-        draft.dataStore.games.push(
-            {
-              homeTeam: {players: []},
-              awayTeam: {players: []},
-              points: []
-            })
-        draft.uiStore.currentView = View.GAME
-      });
-    }
-    case ActionTypes.MANAGE_PLAYERS:
-      return produce(state, (draft: State) => {
-        draft.uiStore.currentView = View.MANAGE_PLAYERS
-      })
-    case ActionTypes.TOGGLE_PLAYER_TEAM:
-      return produce(state, (draft: State) => draft);
-    default:
-      // eslint-disable-next-line
-      const _exhaustCheck: never = action.type
-      throw new Error();
+export function reducer(state: State, action: Action ) {
+  if(SetViewAction.is(action)) {
+    return produce(state, (draft: State) => {
+      draft.uiStore.currentView = action.view
+    })
   }
+
+  if(TogglePlayerTeamAction.is(action)) {
+    return produce(state, (draft: State) => {
+     draft.dataStore.gameActions.push(new TogglePlayerTeamGameAction(action.player))
+    })
+  }
+
+  throw Error("unknown action")
+  // switch (action.type) {
+  //   case ActionTypes.NEW_GAME: {
+  //     return produce(state, (draft: State) => draft);
+  //   }
+  //   case ActionTypes.MANAGE_PLAYERS:
+  //     return produce(state, (draft: State) => {
+  //       draft.uiStore.currentView = View.MANAGE_PLAYERS
+  //     })
+  //   case ActionTypes.TOGGLE_PLAYER_TEAM:
+  //     return produce(state, (draft: State) => draft);
+  //   default:
+  //     eslint-disable-next-line
+      // const _exhaustCheck: never = action.type
+      // throw new Error();
+  // }
 
 }
 

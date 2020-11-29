@@ -1,13 +1,9 @@
 import React from 'react';
-import {Action, createActions} from "../../model";
+import {Action, createActions, PLAYERS} from "../../model";
 
 interface Props {
   dispatch: (action: Action) => any
 }
-
-const PLAYER_NAMES: string[] = [
-  'mikko', 'ida', 'roope'
-]
 
 function PlayerListing(props: Props) {
 
@@ -15,9 +11,10 @@ function PlayerListing(props: Props) {
 
   return (
       <div>Player list
-          {PLAYER_NAMES.map(player =>
-              <div key={player}><button>
-                {player}
+          {PLAYERS.map(player =>
+              <div key={player.name}><button
+              onClick={actions.togglePlayerTeam(player)}>
+                {player.name}
               </button>
               </div>
           )}

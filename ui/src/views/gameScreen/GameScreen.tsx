@@ -16,7 +16,7 @@ function GameScreen(props: Props) {
           <div>
             Team 1
             <button onClick={actions.managePlayers}>
-              Players: {props.state.dataStore.games[0].homeTeam.players.length}</button>
+              Players: 4</button>
             <button>Goals: 5</button>
           </div>
           <div>
