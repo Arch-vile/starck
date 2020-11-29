@@ -1,9 +1,17 @@
-export interface Player {
+export class Player {
+  id: number
   name: string
+
+  constructor(name: string) {
+    this.id = Math.random()
+    this.name = name
+  }
 }
 
 export const PLAYERS: Player[] = [
-  {name: 'mikko'}, {name: 'ida'}, {name: 'roope'}
+  new Player('mikko'),
+  new Player('ida'),
+  new Player('roope')
 ]
 
 enum GameActionTypes {

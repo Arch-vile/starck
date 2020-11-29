@@ -5,7 +5,6 @@ import PlayerListing from "./views/playerListing/PlayerListing";
 import {reducer} from "./reducers";
 import {initialState, View} from "./uiModel";
 
-
 function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -18,6 +17,7 @@ function App() {
 
           {state.uiStore.currentView === View.MANAGE_PLAYERS &&
           <PlayerListing
+              state={state}
               dispatch={dispatch}
           />}
 
