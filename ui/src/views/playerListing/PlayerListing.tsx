@@ -9,6 +9,7 @@ interface Props {
   dispatch: (action: Action) => any
 }
 
+// The team assignment of the player can be sourced from the toggle event count for that player
 function style(actionsPerPlayer: _.Dictionary<_.TypeOfCollection<TogglePlayerTeamGameAction[]>[]>, player: Player) {
   if (!actionsPerPlayer[player.id] || actionsPerPlayer[player.id].length % 3 === 0) {
     return {backgroundColor: 'transparent'}
