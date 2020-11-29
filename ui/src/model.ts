@@ -1,7 +1,6 @@
 import produce from 'immer'
 
 export enum View {
-  START,
   GAME,
   MANAGE_PLAYERS
 }
@@ -13,6 +12,7 @@ interface UIStore {
 interface Player {
   name: string
 }
+
 export const PLAYERS: Player[] = [
   {name: 'mikko'}, {name: 'ida'}, {name: 'roope'}
 ]
@@ -34,9 +34,9 @@ class TogglePlayerTeamGameAction implements GameAction {
   type = GameActionTypes.TOGGLE_PLAYER_TEAM
   player: Player
 
- constructor(player: Player) {
+  constructor(player: Player) {
     this.player = player
- }
+  }
 }
 
 
@@ -49,16 +49,12 @@ export interface State {
   dataStore: DataStore
 }
 
-// export enum ActionTypes {
-//   NEW_GAME = "newGame",
-//   MANAGE_PLAYERS = "managePlayers",
-//   TOGGLE_PLAYER_TEAM = "togglePlayerTeam"
-// }
-
-export interface Action { }
+export interface Action {
+}
 
 class SetViewAction implements Action {
   view: View
+
   constructor(view: View) {
     this.view = view
   }
@@ -71,7 +67,7 @@ class SetViewAction implements Action {
 class TogglePlayerTeamAction implements Action {
   player: Player
 
-  constructor(player: Player){
+  constructor(player: Player) {
     this.player = player
   }
 
@@ -82,42 +78,25 @@ class TogglePlayerTeamAction implements Action {
 
 export function createActions(dispatch: any) {
   return {
-    // newGame: () => dispatch({type: ActionTypes.NEW_GAME}),
-    managePlayers: () =>  dispatch(new SetViewAction(View.MANAGE_PLAYERS)),
-     togglePlayerTeam: (player: Player) => () =>
-         dispatch(new TogglePlayerTeamGameAction(player))
+    managePlayers: () => dispatch(new SetViewAction(View.MANAGE_PLAYERS)),
+    togglePlayerTeam: (player: Player) => () =>
+        dispatch(new TogglePlayerTeamGameAction(player))
   }
 }
 
-export function reducer(state: State, action: Action ) {
-  if(SetViewAction.is(action)) {
+export function reducer(state: State, action: Action) {
+  if (SetViewAction.is(action)) {
     return produce(state, (draft: State) => {
       draft.uiStore.currentView = action.view
     })
   }
 
-  if(TogglePlayerTeamAction.is(action)) {
+  if (TogglePlayerTeamAction.is(action)) {
     return produce(state, (draft: State) => {
-     draft.dataStore.gameActions.push(new TogglePlayerTeamGameAction(action.player))
+      draft.dataStore.gameActions.push(new TogglePlayerTeamGameAction(action.player))
     })
   }
 
   throw Error("unknown action")
-  // switch (action.type) {
-  //   case ActionTypes.NEW_GAME: {
-  //     return produce(state, (draft: State) => draft);
-  //   }
-  //   case ActionTypes.MANAGE_PLAYERS:
-  //     return produce(state, (draft: State) => {
-  //       draft.uiStore.currentView = View.MANAGE_PLAYERS
-  //     })
-  //   case ActionTypes.TOGGLE_PLAYER_TEAM:
-  //     return produce(state, (draft: State) => draft);
-  //   default:
-  //     eslint-disable-next-line
-      // const _exhaustCheck: never = action.type
-      // throw new Error();
-  // }
-
 }
 

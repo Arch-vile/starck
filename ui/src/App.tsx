@@ -27,8 +27,10 @@ function App() {
           <PlayerListing
               dispatch={dispatch}
           />}
+
+           {/*Just for debugging*/}
           {state.dataStore.gameActions.map(action =>
-            <div key={action.timestamp}>{JSON.stringify(action)}</div>
+            <div style={{ fontSize: 'small'}} key={action.timestamp}>{JSON.stringify(action)}</div>
           )}
         </header>
       </div>
