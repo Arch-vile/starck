@@ -1,5 +1,6 @@
 import React from 'react';
-import {Action, createActions, State} from "../../model";
+import {Action, State} from "../../uiModel";
+import {createActions} from "../../reducers";
 
 interface Props {
   state: State,

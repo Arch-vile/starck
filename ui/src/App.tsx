@@ -1,17 +1,10 @@
 import React, {useReducer} from 'react';
 import './App.css';
-import {reducer, State, View} from "./model";
 import GameScreen from "./views/gameScreen/GameScreen";
 import PlayerListing from "./views/playerListing/PlayerListing";
+import {reducer} from "./reducers";
+import {initialState, View} from "./uiModel";
 
-const initialState: State = {
-  uiStore: {
-    currentView: View.GAME
-  },
-  dataStore: {
-    gameActions: []
-  }
-};
 
 function App() {
 

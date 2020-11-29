@@ -1,15 +1,4 @@
-import produce from 'immer'
-
-export enum View {
-  GAME,
-  MANAGE_PLAYERS
-}
-
-interface UIStore {
-  currentView: View
-}
-
-interface Player {
+export interface Player {
   name: string
 }
 
@@ -29,7 +18,7 @@ interface GameAction {
   type: GameActionTypes
 }
 
-class TogglePlayerTeamGameAction implements GameAction {
+export class TogglePlayerTeamGameAction implements GameAction {
   timestamp = new Date().getTime()
   type = GameActionTypes.TOGGLE_PLAYER_TEAM
   player: Player
@@ -40,63 +29,10 @@ class TogglePlayerTeamGameAction implements GameAction {
 }
 
 
-interface DataStore {
+export interface DataStore {
   gameActions: GameAction[]
 }
 
-export interface State {
-  uiStore: UIStore,
-  dataStore: DataStore
-}
 
-export interface Action {
-}
 
-class SetViewAction implements Action {
-  view: View
-
-  constructor(view: View) {
-    this.view = view
-  }
-
-  static is(action: Action): action is SetViewAction {
-    return (action as SetViewAction).view !== undefined
-  }
-}
-
-class TogglePlayerTeamAction implements Action {
-  player: Player
-
-  constructor(player: Player) {
-    this.player = player
-  }
-
-  static is(action: Action): action is TogglePlayerTeamAction {
-    return (action as TogglePlayerTeamAction).player !== undefined
-  }
-}
-
-export function createActions(dispatch: any) {
-  return {
-    managePlayers: () => dispatch(new SetViewAction(View.MANAGE_PLAYERS)),
-    togglePlayerTeam: (player: Player) => () =>
-        dispatch(new TogglePlayerTeamGameAction(player))
-  }
-}
-
-export function reducer(state: State, action: Action) {
-  if (SetViewAction.is(action)) {
-    return produce(state, (draft: State) => {
-      draft.uiStore.currentView = action.view
-    })
-  }
-
-  if (TogglePlayerTeamAction.is(action)) {
-    return produce(state, (draft: State) => {
-      draft.dataStore.gameActions.push(new TogglePlayerTeamGameAction(action.player))
-    })
-  }
-
-  throw Error("unknown action")
-}
 

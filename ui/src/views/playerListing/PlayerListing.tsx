@@ -1,5 +1,7 @@
 import React from 'react';
-import {Action, createActions, PLAYERS} from "../../model";
+import {Action} from "../../uiModel";
+import {createActions} from "../../reducers";
+import {PLAYERS} from "../../model";
 
 interface Props {
   dispatch: (action: Action) => any
