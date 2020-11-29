@@ -4,9 +4,10 @@ import {Player, TogglePlayerTeamGameAction} from "./model";
 
 export function createActions(dispatch: any) {
   return {
+    gameView: () => dispatch(new SetViewAction(View.GAME)),
     managePlayers: () => dispatch(new SetViewAction(View.MANAGE_PLAYERS)),
     togglePlayerTeam: (player: Player) => () =>
-        dispatch(new TogglePlayerTeamAction(player))
+        dispatch(new TogglePlayerTeamAction(player)),
   }
 }
 

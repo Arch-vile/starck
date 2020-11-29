@@ -35,7 +35,11 @@ function PlayerListing(props: Props) {
   const actionsPerPlayer = _.groupBy(toggleActions, action => action.player.id)
 
   return (
-      <div>Player list
+      <div>
+        <div>
+          <button onClick={actions.gameView}>Back to game</button>
+        </div>
+        Player list
         {PLAYERS.map(player =>
             <div key={player.id}
                  style={style(actionsPerPlayer, player)}

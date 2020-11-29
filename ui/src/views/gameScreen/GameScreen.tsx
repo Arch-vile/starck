@@ -15,13 +15,13 @@ function GameScreen(props: Props) {
       <div>This is the game screen
         <div>
           <div>
-            Team 1
+            <span style={{color: 'green'}}>Team 1</span>
             <button onClick={actions.managePlayers}>
               Players: 4</button>
             <button disabled={true}>Goals: 5</button>
           </div>
           <div>
-            Team 2
+            <span style={{color: 'red'}}>Team 2</span>
             <button disabled={true}>Players: 4</button>
             <button disabled={true}>Goals: 5</button>
           </div>
