@@ -25,7 +25,7 @@ export class SetViewAction implements Action {
   }
 
   static is(action: Action): action is SetViewAction {
-    return (action as SetViewAction).view !== undefined
+    return action instanceof SetViewAction
   }
 }
 
@@ -37,7 +37,7 @@ export class TogglePlayerTeamAction implements Action {
   }
 
   static is(action: Action): action is TogglePlayerTeamAction {
-    return (action as TogglePlayerTeamAction).player !== undefined
+    return action instanceof TogglePlayerTeamAction
   }
 }
 

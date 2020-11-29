@@ -6,7 +6,7 @@ export function createActions(dispatch: any) {
   return {
     managePlayers: () => dispatch(new SetViewAction(View.MANAGE_PLAYERS)),
     togglePlayerTeam: (player: Player) => () =>
-        dispatch(new TogglePlayerTeamGameAction(player))
+        dispatch(new TogglePlayerTeamAction(player))
   }
 }
 
@@ -17,7 +17,9 @@ export function reducer(state: State, action: Action) {
     })
   }
 
+  console.log(action.constructor);
   if (TogglePlayerTeamAction.is(action)) {
+    console.log('the what now ', JSON.stringify(action))
     return produce(state, (draft: State) => {
       draft.dataStore.gameActions.push(new TogglePlayerTeamGameAction(action.player))
     })
