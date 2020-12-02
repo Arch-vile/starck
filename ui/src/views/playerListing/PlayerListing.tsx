@@ -3,6 +3,7 @@ import {Action, State} from "../../uiModel";
 import {createActions} from "../../reducers";
 import {Player, PLAYERS, TogglePlayerTeamGameAction} from "../../model";
 import _ from "underscore"
+import {toggleActionsPerPlayer} from "../../eventSourcing/eventSourcing";
 
 interface Props {
   state: State,
@@ -27,12 +28,7 @@ function style(actionsPerPlayer: _.Dictionary<_.TypeOfCollection<TogglePlayerTea
 function PlayerListing(props: Props) {
 
   const actions = createActions(props.dispatch)
-
-  const toggleActions = props.state.dataStore.gameActions
-  .filter(action => action instanceof TogglePlayerTeamGameAction)
-  .map(action => action as TogglePlayerTeamGameAction)
-
-  const actionsPerPlayer = _.groupBy(toggleActions, action => action.player.id)
+  const actionsPerPlayer = toggleActionsPerPlayer(props.state.dataStore.gameActions)
 
   return (
       <div>

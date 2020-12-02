@@ -14,14 +14,18 @@ export const PLAYERS: Player[] = [
   new Player('roope')
 ]
 
-enum GameActionTypes {
-  TOGGLE_PLAYER_TEAM = 'togglePlayerTeam'
+export interface DataStore {
+  gameActions: GameAction[]
+}
+
+export enum GameActionTypes {
+  TOGGLE_PLAYER_TEAM = 'togglePlayerTeam',
 }
 
 // Epoch millis
 type timeStamp = number
 
-interface GameAction {
+export interface GameAction {
   timestamp: timeStamp
   type: GameActionTypes
 }
@@ -37,9 +41,6 @@ export class TogglePlayerTeamGameAction implements GameAction {
 }
 
 
-export interface DataStore {
-  gameActions: GameAction[]
-}
 
 
 
