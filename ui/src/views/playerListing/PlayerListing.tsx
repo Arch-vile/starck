@@ -38,14 +38,15 @@ function PlayerListing(props: Props) {
         Player list
         {PLAYERS.map(player =>
             <div key={player.id}
-                 style={style(actionsPerPlayer, player)}
-            >
+                 style={style(actionsPerPlayer, player)}>
               <button
                   onClick={actions.togglePlayerTeam(player)}>
                 {player.name}
               </button>
             </div>
         )}
+
+        <button disabled>Add player</button>
       </div>
   );
 }

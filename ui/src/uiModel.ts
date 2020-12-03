@@ -2,7 +2,9 @@ import {DataStore, Player} from "./model";
 
 export enum View {
   GAME,
-  MANAGE_PLAYERS
+  MANAGE_PLAYERS,
+  HOME_TEAM_GOAL,
+  AWAY_TEAM_GOAL,
 }
 
 interface UIStore {
@@ -16,6 +18,7 @@ export interface State {
 
 export interface Action {
 }
+
 
 export class SetViewAction implements Action {
   view: View

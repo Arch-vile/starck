@@ -25,14 +25,26 @@ export function toggleActionsPerPlayer(events: GameAction[]) {
   return _.groupBy(toggleActions, action => action.player.id)
 }
 
-export function calcHomeTeamPlayerCount(events: GameAction[]) {
+export function findPlayers(teamOrder: number, events: GameAction[]) {
   const togglesPerPlayer = toggleActionsPerPlayer(events)
   return Object.values(togglesPerPlayer)
-  .filter(actions => actions.length % 3 === 1).length;
+  .filter(actions => actions.length % 3 === teamOrder)
+  .map( actions => actions[0])
+  .map(action => action.player)
+}
+
+export function findHomeTeamPlayers(events: GameAction[]) {
+  return findPlayers(1, events)
+}
+
+export function findAwayTeamPlayers(events: GameAction[]) {
+  return findPlayers(2, events)
+}
+
+export function calcHomeTeamPlayerCount(events: GameAction[]) {
+return findHomeTeamPlayers(events).length
 }
 
 export function calcAwayTeamPlayerCount(events: GameAction[]) {
-  const togglesPerPlayer = toggleActionsPerPlayer(events)
-  return Object.values(togglesPerPlayer)
-  .filter(actions => actions.length % 3 === 2).length;
+  return findAwayTeamPlayers(events).length
 }

@@ -8,6 +8,8 @@ export function createActions(dispatch: any) {
     managePlayers: () => dispatch(new SetViewAction(View.MANAGE_PLAYERS)),
     togglePlayerTeam: (player: Player) => () =>
         dispatch(new TogglePlayerTeamAction(player)),
+    markHomeTeamGoal: () => dispatch(new SetViewAction(View.HOME_TEAM_GOAL)),
+    markAwayTeamGoal: () => dispatch(new SetViewAction(View.AWAY_TEAM_GOAL)),
   }
 }
 
