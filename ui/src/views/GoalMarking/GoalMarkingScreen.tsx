@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Action, State} from "../../uiModel";
 import {createActions, reducer} from "../../reducers";
 import {findAwayTeamPlayers, findHomeTeamPlayers} from "../../eventSourcing/eventSourcing";
+import {Player} from "../../model";
 
 interface Props {
   state: State,
@@ -10,6 +11,10 @@ interface Props {
 }
 
 function GoalMarking(props: Props) {
+  const [serve, setServe] = useState<Player | undefined>()
+  const [goal, setGoal] = useState()
+
+
   const actions = createActions(props.dispatch)
   const players = props.team === 'home' ?
       findHomeTeamPlayers(props.state.dataStore.gameActions) :
@@ -20,7 +25,14 @@ function GoalMarking(props: Props) {
         <div>
           <button onClick={actions.gameView}>Back to game</button>
         </div>
-        {players.map(player => <span>{player.name}</span>)}
+        { !serve ?
+            <div>
+             Choose serve<br/>
+              {players.map(player => <button onClick={() => setServe(player)}>{player.name}</button>)}
+            </div> :
+            <div>
+            </div>
+        }
       </div>
   );
 }
