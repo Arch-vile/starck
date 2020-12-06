@@ -1,4 +1,4 @@
-import {GameAction, MarkGoalGameAction, TogglePlayerTeamGameAction} from "../model";
+import {GameAction, MarkGoalGameAction, Player, TogglePlayerTeamGameAction} from "../model";
 import _, { Dictionary } from "lodash";
 
 export function toggleActionsPerPlayer(events: GameAction[]): Dictionary<TogglePlayerTeamGameAction[]>   {
@@ -38,10 +38,17 @@ function filterCurrentGameActions(events: GameAction[]) {
 }
 
 export function calcHomeTeamScore(events: GameAction[]) {
+  return calcTeamScore(findHomeTeamPlayers(events), events)
+}
+
+export function calcAwayTeamScore(events: GameAction[]) {
+  return calcTeamScore(findAwayTeamPlayers(events), events)
+}
+
+export function calcTeamScore(teamPlayers: Player[], events: GameAction[]) {
   const currentGameActions = filterCurrentGameActions(events)
-  const homeTeamPlayers = findHomeTeamPlayers(events)
   return currentGameActions
-    .filter((action): action is MarkGoalGameAction => action instanceof MarkGoalGameAction)
-    .filter(action => homeTeamPlayers.includes(action.goal))
-    .length
+  .filter((action): action is MarkGoalGameAction => action instanceof MarkGoalGameAction)
+  .filter(action => teamPlayers.includes(action.goal))
+      .length
 }

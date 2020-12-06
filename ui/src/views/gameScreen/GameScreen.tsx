@@ -2,7 +2,7 @@ import React from 'react';
 import {Action, State} from "../../uiModel";
 import {createActions} from "../../reducers";
 import {
-  calcAwayTeamPlayerCount,
+  calcAwayTeamPlayerCount, calcAwayTeamScore,
   calcHomeTeamPlayerCount,
   calcHomeTeamScore
 } from "../../eventSourcing/eventSourcing";
@@ -20,6 +20,7 @@ function GameScreen(props: Props) {
   const homeTeamPlayerCount = calcHomeTeamPlayerCount(gameActions)
   const awayTeamPlayerCount = calcAwayTeamPlayerCount(gameActions)
   const homeTeamScore = calcHomeTeamScore(gameActions)
+  const awayTeamScore = calcAwayTeamScore(gameActions)
 
   return (
       <div>This is the game screen
@@ -36,7 +37,7 @@ function GameScreen(props: Props) {
             <button onClick={actions.managePlayers}>
               Players: {awayTeamPlayerCount}
             </button>
-            <button onClick={actions.markAwayTeamGoal}>Goals: 5</button>
+            <button onClick={actions.markAwayTeamGoal}>Goals: {awayTeamScore}</button>
           </div>
         </div>
       </div>
