@@ -44,6 +44,21 @@ export class TogglePlayerTeamAction implements Action {
   }
 }
 
+export class MarkGoalAction implements Action {
+  serve: Player
+  goal: Player
+
+  constructor(serve: Player, goal: Player) {
+    this.serve = serve
+    this.goal = goal
+  }
+
+  static is(action: Action): action is MarkGoalAction {
+    return action instanceof MarkGoalAction
+  }
+
+}
+
 export const initialState: State = {
   uiStore: {
     currentView: View.GAME

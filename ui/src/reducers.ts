@@ -1,6 +1,13 @@
 import produce from "immer";
-import {Action, SetViewAction, State, TogglePlayerTeamAction, View} from "./uiModel";
-import {Player, TogglePlayerTeamGameAction} from "./model";
+import {
+  Action,
+  MarkGoalAction,
+  SetViewAction,
+  State,
+  TogglePlayerTeamAction,
+  View
+} from "./uiModel";
+import {MarkGoalGameAction, Player, TogglePlayerTeamGameAction} from "./model";
 
 export function createActions(dispatch: any) {
   return {
@@ -10,6 +17,7 @@ export function createActions(dispatch: any) {
         dispatch(new TogglePlayerTeamAction(player)),
     markHomeTeamGoal: () => dispatch(new SetViewAction(View.HOME_TEAM_GOAL)),
     markAwayTeamGoal: () => dispatch(new SetViewAction(View.AWAY_TEAM_GOAL)),
+    markGoal: (serve: Player, goal: Player) => dispatch(new MarkGoalAction(serve,goal)),
   }
 }
 
@@ -26,5 +34,12 @@ export function reducer(state: State, action: Action) {
     })
   }
 
+  if (MarkGoalAction.is(action)) {
+    return produce(state, (draft: State) => {
+      draft.dataStore.gameActions.push(new MarkGoalGameAction(action.serve, action.goal))
+      draft.uiStore.currentView = View.GAME
+    })
+
+  }
   throw Error(`unknown action ${JSON.stringify(action)}`)
 }

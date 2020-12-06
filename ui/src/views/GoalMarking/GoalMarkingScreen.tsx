@@ -11,14 +11,15 @@ interface Props {
 }
 
 function GoalMarking(props: Props) {
-  const [serve, setServe] = useState<Player | undefined>()
-  const [goal, setGoal] = useState()
-
-
+  const [serve, markServe] = useState<Player | undefined>()
   const actions = createActions(props.dispatch)
   const players = props.team === 'home' ?
       findHomeTeamPlayers(props.state.dataStore.gameActions) :
       findAwayTeamPlayers(props.state.dataStore.gameActions)
+
+  const markGoal = function (goal: Player) {
+    actions.markGoal(serve!!, goal)
+  }
 
   return (
       <div>
@@ -28,9 +29,11 @@ function GoalMarking(props: Props) {
         { !serve ?
             <div>
              Choose serve<br/>
-              {players.map(player => <button onClick={() => setServe(player)}>{player.name}</button>)}
+              {players.map(player => <button onClick={() => markServe(player)}>{player.name}</button>)}
             </div> :
             <div>
+              Choose goal<br/>
+              {players.map(player => <button onClick={() => markGoal(player)}>{player.name}</button>)}
             </div>
         }
       </div>
