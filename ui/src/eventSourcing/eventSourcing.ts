@@ -1,28 +1,10 @@
-import {GameAction, TogglePlayerTeamGameAction} from "../model";
-import _ from "underscore";
+import {GameAction, MarkGoalGameAction, TogglePlayerTeamGameAction} from "../model";
+import _, { Dictionary } from "lodash";
 
-
-// function findLatestGameStartingAction(data: GameAction[]) {
-//   const reversed = data.reverse()
-//   const index = reversed.findIndex(action => {
-//     return action.type === GameActionTypes.TOGGLE_PLAYER_TEAM ||
-//         action.type === GameActionTypes.FINISH_GAME ||
-//         action.type === GameActionTypes.RESET
-//   });
-//
-//   if( index !== -1) {
-//     return data[index]
-//   } else {
-//     return data[0]
-//   }
-// }
-
-export function toggleActionsPerPlayer(events: GameAction[]) {
+export function toggleActionsPerPlayer(events: GameAction[]): Dictionary<TogglePlayerTeamGameAction[]>   {
   const toggleActions = events
-  .filter(action => action instanceof TogglePlayerTeamGameAction)
-  .map(action => action as TogglePlayerTeamGameAction)
-
-  return _.groupBy(toggleActions, action => action.player.id)
+  .filter((action): action is TogglePlayerTeamGameAction => action instanceof TogglePlayerTeamGameAction)
+   return _.groupBy(toggleActions, action => action.player.id)
 }
 
 export function findPlayers(teamOrder: number, events: GameAction[]) {
@@ -47,4 +29,19 @@ return findHomeTeamPlayers(events).length
 
 export function calcAwayTeamPlayerCount(events: GameAction[]) {
   return findAwayTeamPlayers(events).length
+}
+
+function filterCurrentGameActions(events: GameAction[]) {
+  const indexOfLastToggle = _.findLastIndex(events, action => action instanceof TogglePlayerTeamGameAction)
+ // TODO check indexes of other game ending actions
+  return events.slice(indexOfLastToggle)
+}
+
+export function calcHomeTeamScore(events: GameAction[]) {
+  const currentGameActions = filterCurrentGameActions(events)
+  const homeTeamPlayers = findHomeTeamPlayers(events)
+  return currentGameActions
+    .filter((action): action is MarkGoalGameAction => action instanceof MarkGoalGameAction)
+    .filter(action => homeTeamPlayers.includes(action.goal))
+    .length
 }

@@ -1,7 +1,11 @@
 import React from 'react';
 import {Action, State} from "../../uiModel";
 import {createActions} from "../../reducers";
-import {calcAwayTeamPlayerCount, calcHomeTeamPlayerCount} from "../../eventSourcing/eventSourcing";
+import {
+  calcAwayTeamPlayerCount,
+  calcHomeTeamPlayerCount,
+  calcHomeTeamScore
+} from "../../eventSourcing/eventSourcing";
 
 interface Props {
   state: State,
@@ -12,8 +16,10 @@ function GameScreen(props: Props) {
 
   const actions = createActions(props.dispatch)
 
-  const homeTeamPlayerCount = calcHomeTeamPlayerCount(props.state.dataStore.gameActions)
-  const awayTeamPlayerCount = calcAwayTeamPlayerCount(props.state.dataStore.gameActions)
+  const gameActions = props.state.dataStore.gameActions;
+  const homeTeamPlayerCount = calcHomeTeamPlayerCount(gameActions)
+  const awayTeamPlayerCount = calcAwayTeamPlayerCount(gameActions)
+  const homeTeamScore = calcHomeTeamScore(gameActions)
 
   return (
       <div>This is the game screen
@@ -23,7 +29,7 @@ function GameScreen(props: Props) {
             <button onClick={actions.managePlayers}>
               Players: {homeTeamPlayerCount}
             </button>
-            <button onClick={actions.markHomeTeamGoal}>Goals: 5</button>
+            <button onClick={actions.markHomeTeamGoal}>Goals: {homeTeamScore}</button>
           </div>
           <div>
             <span style={{color: 'red'}}>Team 2</span>

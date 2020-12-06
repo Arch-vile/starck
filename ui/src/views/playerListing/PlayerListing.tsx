@@ -2,7 +2,7 @@ import React from 'react';
 import {Action, State} from "../../uiModel";
 import {createActions} from "../../reducers";
 import {Player, PLAYERS, TogglePlayerTeamGameAction} from "../../model";
-import _ from "underscore"
+import {Dictionary} from "lodash"
 import {toggleActionsPerPlayer} from "../../eventSourcing/eventSourcing";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 }
 
 // The team assignment of the player can be sourced from the toggle event count for that player
-function style(actionsPerPlayer: _.Dictionary<_.TypeOfCollection<TogglePlayerTeamGameAction[]>[]>, player: Player) {
+function style(actionsPerPlayer: Dictionary<TogglePlayerTeamGameAction[]> , player: Player) {
   if (!actionsPerPlayer[player.id] || actionsPerPlayer[player.id].length % 3 === 0) {
     return {backgroundColor: 'transparent'}
   }
