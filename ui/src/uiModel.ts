@@ -56,7 +56,13 @@ export class MarkGoalAction implements Action {
   static is(action: Action): action is MarkGoalAction {
     return action instanceof MarkGoalAction
   }
+}
 
+export class NewGameAction implements Action {
+
+  static is(action: Action): action is NewGameAction {
+    return action instanceof NewGameAction
+  }
 }
 
 export const initialState: State = {

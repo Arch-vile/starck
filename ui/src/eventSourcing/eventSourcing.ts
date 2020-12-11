@@ -1,10 +1,18 @@
-import {GameAction, MarkGoalGameAction, Player, TogglePlayerTeamGameAction} from "../model";
+import {
+  GameAction,
+  MarkGoalGameAction,
+  NewGameGameAction,
+  Player,
+  TogglePlayerTeamGameAction
+} from "../model";
 import _, { Dictionary } from "lodash";
 
 export function toggleActionsPerPlayer(events: GameAction[]): Dictionary<TogglePlayerTeamGameAction[]>   {
   const toggleActions = events
   .filter((action): action is TogglePlayerTeamGameAction => action instanceof TogglePlayerTeamGameAction)
-   return _.groupBy(toggleActions, action => action.player.id)
+
+  const foo = _.groupBy(toggleActions, action => action.player.id)
+  return foo;
 }
 
 export function findPlayers(teamOrder: number, events: GameAction[]) {
@@ -33,8 +41,8 @@ export function calcAwayTeamPlayerCount(events: GameAction[]) {
 
 function filterCurrentGameActions(events: GameAction[]) {
   const indexOfLastToggle = _.findLastIndex(events, action => action instanceof TogglePlayerTeamGameAction)
- // TODO check indexes of other game ending actions
-  return events.slice(indexOfLastToggle)
+  const indexOfNewGame = _.findLastIndex(events, action => action instanceof NewGameGameAction)
+  return events.slice(Math.max(indexOfLastToggle, indexOfNewGame))
 }
 
 export function calcHomeTeamScore(events: GameAction[]) {

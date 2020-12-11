@@ -40,6 +40,9 @@ function GameScreen(props: Props) {
             <button onClick={actions.markAwayTeamGoal}>Goals: {awayTeamScore}</button>
           </div>
         </div>
+        <div>
+          <button onClick={actions.newGame}>Start new game</button>
+        </div>
       </div>
   );
 }
